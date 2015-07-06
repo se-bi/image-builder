@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/strongly-typed/image-builder.svg?branch=master)](https://travis-ci.org/strongly-typed/image-builder)
+
 # image-builder
 
 Build custom Linux images for embedded Linux boards.
