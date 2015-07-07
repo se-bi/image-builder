@@ -148,6 +148,17 @@ do
     ${script} "${rootfs}"
 done
 
+# Run scripts from distribution directory
+for script in ${distributions_confd}/${distribution}.d/*.sh
+do
+    if [ ! -x "${script}" ]; then
+        continue
+    fi
+    echo "Running script '${script}' in directory '${rootfs}'"
+    ${script} "${rootfs}"
+done
+
+
 # board specific configuration scripts
 # if [ -n "$board_confd" ] && [ -d "$confd/$board_confd" ]
 # then
