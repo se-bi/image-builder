@@ -4,9 +4,9 @@
 # There a serial console with 115200 8N1 at UART0. Login is root:root
 
 # Board
-board=rpi-2-b
+board="rpi-2-b"
 
 # Distribution
-distribution=debian-wheezy
+distribution="debian-wheezy"
 
 hostname="debug"
