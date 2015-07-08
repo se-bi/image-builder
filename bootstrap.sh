@@ -43,7 +43,7 @@ bootfs="${rootfs}/boot"
 mydate=`date +%Y-%m-%d_%H%M`
 
 # path to final image
-image="${buildenv}/${hostname}_${deb_release}_${mydate}.img"
+image="${buildenv}/${hostname}_${board}_${distribution}_${mydate}.img"
 
 
 ################################# Packages #####################################
