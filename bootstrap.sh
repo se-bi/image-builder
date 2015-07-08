@@ -148,6 +148,8 @@ do
     ${script} "${rootfs}"
 done
 
+echo "Finished scripts from ${board_confd}"
+
 # Run scripts from distribution directory
 for script in ${distributions_confd}/${distribution}.d/*.sh
 do
@@ -158,6 +160,7 @@ do
     ${script} "${rootfs}"
 done
 
+echo "Finished scripts from ${distributions_confd}"
 
 # board specific configuration scripts
 # if [ -n "$board_confd" ] && [ -d "$confd/$board_confd" ]
