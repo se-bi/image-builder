@@ -127,7 +127,8 @@ echo "$hostname" > $rootfs/etc/hostname
 
 # TODO: this should be moved to config file
 # kernel commandline for boot
-echo "dwc_otg.lpm_enable=0 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 earlyprintk=ttyAMA0,115200 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait" > $rootfs/boot/cmdline.txt
+echo "Setting kernel boot command-line to " ${kernel_boot_command}
+echo ${kernel_boot_command} > ${rootfs}/boot/cmdline.txt
 
 
 ############################## conf.d scripts ##################################
