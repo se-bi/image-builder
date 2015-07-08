@@ -8,5 +8,4 @@ rootfs=$1
 echo "gpu_mem=16" >> ${rootfs}/boot/config.txt
 
 echo "vchiq
-snd_bcm2835
 " >> ${rootfs}/etc/modules
