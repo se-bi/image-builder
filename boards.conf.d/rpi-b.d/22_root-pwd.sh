@@ -1,0 +1,1 @@
+../rpi-2-b.d/22_root-pwd.sh
