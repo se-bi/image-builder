@@ -9,4 +9,7 @@ board="rpi-2-b"
 # Distribution
 distribution="ubuntu-trusty"
 
+# Applications
+applications=("10_network_local" "11_network_eth0")
+
 hostname="debug"
