@@ -236,5 +236,10 @@ owner="$(namei -o ${buildenv}/.. | tail -n 1 | cut -d ' ' -f 3)"
 group="$(namei -o ${buildenv}/.. | tail -n 1 | cut -d ' ' -f 4)"
 chown -R $owner:$group $buildenv
 
-echo "Created Image: $(basename $image)"
-echo "Done."
+trap : 0
+
+echo "*******************************************************************************"
+echo "*** Created Image: $(basename $image)"
+echo "*** * * * * Done * * * *"
+echo "*******************************************************************************"
+
