@@ -225,8 +225,8 @@ echo "Finished scripts from ${applications_confd}"
 # safety first
 sync; sleep 1
 
-umount -l $rootfs/dev
-umount -l $rootfs/proc
+if mount | grep ${rootfs}/dev  > /dev/null; then umount -l $rootfs/dev;  fi
+if mount | grep ${rootfs}/proc > /dev/null; then umount -l $rootfs/proc; fi
 
 # this does all the heavy lifting
 unmount_image $image
