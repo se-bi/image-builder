@@ -193,6 +193,18 @@ done
 
 echo "Finished scripts from ${distributions_confd}"
 
+# Run scripts from applications directory specified by array ${applications}
+for script in "${applications[@]}";
+do
+    if [ ! -x "${applications_confd}/${script}.sh" ]; then
+        continue
+    fi
+    echo "Running script '${applications_confd}/${script}.sh' in directory '${rootfs}'"
+    ${applications_confd}/${script}.sh "${rootfs}"
+done
+
+echo "Finished scripts from ${applications_confd}"
+
 # board specific configuration scripts
 # if [ -n "$board_confd" ] && [ -d "$confd/$board_confd" ]
 # then
