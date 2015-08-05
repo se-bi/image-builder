@@ -3,6 +3,34 @@
 # More debugging
 set -x
 
+abort()
+{
+	echo >&2 '
+***************
+*** ABORTED ***
+***************
+'
+	echo "Some error occurred before." >&2
+	echo "Now trying to clean up" >&2
+
+	sync; sleep 1
+
+	umount -l $rootfs/dev
+	umount -l $rootfs/proc
+
+	# this does all the heavy lifting
+	unmount_image $image
+
+	# ToDo
+	exit 1
+}
+
+trap 'abort' 0
+
+# These linear scripts without error handling shall not continue when an error occurred.
+set -e
+
+applications_confd=${0%/*}/applications.conf.d
 boards_confd=${0%/*}/boards.conf.d
 distributions_confd=${0%/*}/distributions.conf.d
 systems_confd=${0%/*}/systems.conf.d
