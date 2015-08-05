@@ -81,29 +81,31 @@ if [ -z "$packages" ]; then
     packages=""
 fi
 
-# packages+="ntp,ntpdate,openssh-server,"
+# Every package line need a whitespace at its end
+
+packages+="ntp ntpdate openssh-server "
 
 # convenience and/or needed for using some tools interactively
-packages+="dialog,less,nano,bzip2,"
+packages+="dialog less nano bzip2 "
 
 # convenience
-# packages+="bash-completion,htop,usbutils,picocom,mc,ack-grep,"
+packages+="bash-completion htop usbutils picocom mc ack-grep "
 
 # localization and keyboard layout
-# packages+="console-common,locales,"
+packages+="console-common locales "
 
 # needed for rpi-update bootstrap
-packages+="git-core,wget,curl,ca-certificates,binutils,"
+packages+="git-core wget curl ca-certificates binutils "
 
 # packages needed for networking
-# packages+="net-tools,netbase,ifupdown,net-tools,isc-dhcp-client,"
-# packages+="wireless-tools,wpasupplicant,inetutils-ping,"
+packages+="net-tools netbase ifupdown net-tools isc-dhcp-client "
+packages+="wireless-tools wpasupplicant inetutils-ping "
 
 # python and pyserial for serial to tcp redirect
-# packages+="python,python-serial," #,python-pip,python-dev,build-essential"
+packages+="python python-serial python-pip python-dev build-essential "
 
 # needed for openocd
-# packages+="libusb-1.0-0"
+packages+="libusb-1.0-0 "
 
 
 ############################## Image Handling ##################################
