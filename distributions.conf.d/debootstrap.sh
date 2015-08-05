@@ -18,6 +18,8 @@ deb_release=${deb_release?Error deb_release is not defined.}
 deb_mirror=${deb_mirror?Error deb_mirror is not defined.}
 rootfs=${rootfs?Error rootfs is not defined.}
 
+packages=$(echo ${packages} | sed 's/ /,/g')
+
 # first stage of bootstrapping
 debootstrap \
     --foreign \
