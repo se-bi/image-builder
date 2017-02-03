@@ -200,7 +200,9 @@ create_image ()
     # partition image
     # 32 MiB boot partition and
     # big root partition
-    sfdisk $device < ${img_partition_layout}
+    parted --script $device mklabel msdos
+    parted --align optimal --script $device mkpart primary fat32 0 32MB
+    parted --align optimal --script $device mkpart primary ext4 32MB 100%
 
     sync; sync; sync
     sleep 1
