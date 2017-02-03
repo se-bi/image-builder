@@ -21,7 +21,9 @@ rootfs=${rootfs?Error rootfs is not defined.}
 packages=$(echo ${packages} | sed 's/ /,/g')
 
 # first stage of bootstrapping
+# And ignore stupid return code
 debootstrap \
+    --verbose \
     --foreign \
     --arch=armhf \
     --include=$packages \
@@ -30,7 +32,7 @@ debootstrap \
     $deb_release \
     $rootfs \
     $deb_mirror \
-|| exit 1
+|| true
 
 # copy static qemu for foreign architecture chroot
 cp /usr/bin/qemu-arm-static $rootfs/usr/bin/

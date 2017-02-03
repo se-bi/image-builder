@@ -42,8 +42,10 @@ loop_mount_image ()
     if [ ! -f "$file" ]; then
         return 1
     fi
-    
+
+    sleep 5
     device=`kpartx -va $file | sed -E 's/.*(loop[0-9])p.*/\1/g' | head -1`
+    sleep 5
 
     echo $device
 }
@@ -52,15 +54,15 @@ loop_mount_image ()
 get_loopback_device ()
 {
     file=$1
-    
+
     check_root || return 1
 
     if [ ! -f "$file" ]; then
         return 1
     fi
-    
+
     device=`losetup -a | grep $file | head -n 1 | cut -d':' -f1 | cut -d'/' -f3`
-    
+
     echo $device
 }
 
@@ -74,9 +76,9 @@ loop_unmount_image ()
     if [ ! -f "$file" ]; then
         return 1
     fi
-    
+
     kpartx -d $file
-    
+
     # sometimes kpartx fails to remove the mappings
     device=$(get_loopback_device $file)
     #echo "### got device $device"
@@ -85,9 +87,12 @@ loop_unmount_image ()
         #echo "### remove mapping $partition"
         dmsetup remove $partition
     done
-    
-    # and remove loopback device
-    losetup -d /dev/$device
+
+    # and remove loopback device, if it still exists
+    if [ -e "/dev/$device" ]
+    then
+        losetup -d /dev/$device
+    fi
 }
 
 # Mount a SD-Card image and it's partitions to
@@ -96,7 +101,7 @@ loop_unmount_image ()
 #  $1: path to image file
 #  $2: mountpoint
 mount_image ()
-{    
+{
     file=$1
     mntpoint=$2
 
@@ -105,22 +110,22 @@ mount_image ()
     if [ ! -f "$file" ] || [ ! -d "$mntpoint" ]; then
         return 1
     fi
-    
+
     # check if loopback is already mounted
     device="$(get_loopback_device $file)"
-    
+
     # mount if not
     if [ -z "$device" ]
     then
         device=$(loop_mount_image $file)
     fi
-    
+
     # add full path
     device="/dev/mapper/$device"
-    
+
     # now mount partitions on mountpoint
     mount ${device}p2 $mntpoint
-    
+
     mkdir -p $mntpoint/boot
     mkdir -p $mntpoint/dev
     mkdir -p $mntpoint/proc
@@ -165,7 +170,9 @@ unmount_image ()
 
 # Boot partition has fixed size of 32MB and offset of 3072
 create_image ()
-{    
+{
+    echo "DEBUG: create_image started."
+
     file=${1?file not provided.}
     img_size=${2?img_size not provided.}
     img_partition_layout=${3?img_partition_layout not provided}
@@ -177,12 +184,12 @@ create_image ()
     fi
 
     check_root || return 1
-    
+
     # don't overwrite existing image
     if [ -f "$file" ]; then
         return 1
     fi
-        
+
     # create sparse image file
     touch "$file" || return 1
     dd if=/dev/zero of="$file" bs=1MB count=1 seek=$img_size
@@ -193,9 +200,10 @@ create_image ()
     # partition image
     # 32 MiB boot partition and
     # big root partition
-    sfdisk $device -uM < ${img_partition_layout}
+    sfdisk $device < ${img_partition_layout}
 
     sync; sync; sync
+    sleep 1
 
     # tidy up
     losetup -d $device
@@ -210,4 +218,6 @@ create_image ()
 
     # and tidy up again
     loop_unmount_image $file
+
+    echo "DEBUG: create_image ended."
 }
