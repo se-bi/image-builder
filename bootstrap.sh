@@ -114,8 +114,8 @@ packages+="libusb-1.0-0 "
 mkdir -p $buildenv
 
 # create image
-echo " # creating image file '$(basename $image)' with size ${img_size}M and layout ${img_partition_layout}."
-create_image $image $img_size $img_partition_layout || (echo "FAILED"; exit 1)
+echo " # creating image file '$(basename $image)' with size ${img_size}M."
+create_image $image $img_size || (echo "FAILED"; exit 1)
 
 # make sure rootfs path exists
 mkdir -p $rootfs
