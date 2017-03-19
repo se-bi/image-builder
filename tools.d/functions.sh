@@ -16,7 +16,7 @@ check_root ()
 #  return:  1 if one ore more packages are missing
 check_requirements ()
 {
-    req=( "kpartx" "qemu-arm-static" "debootstrap" "lvm" "dosfsck")
+    req=( "kpartx" "qemu-arm-static" "debootstrap" "lvm" "dosfsck" "parted" )
 
     for r in ${req[@]}; do
         command -v ${r} > /dev/null 2>&1 ||
