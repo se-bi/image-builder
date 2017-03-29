@@ -16,7 +16,7 @@ check_root ()
 #  return:  1 if one ore more packages are missing
 check_requirements ()
 {
-    req=( "kpartx" "qemu-arm-static" "debootstrap" "lvm" "dosfsck")
+    req=( "kpartx" "qemu-arm-static" "debootstrap" "lvm" "dosfsck" "parted" "fuser"  )
 
     for r in ${req[@]}; do
         command -v ${r} > /dev/null 2>&1 ||
@@ -175,13 +175,6 @@ create_image ()
 
     file=${1?file not provided.}
     img_size=${2?img_size not provided.}
-    img_partition_layout=${3?img_partition_layout not provided}
-
-    # Check if file exist
-    if [ ! -e ${img_partition_layout} ]; then
-        echo "${img_partition_layout} does not exist."
-        return 1
-    fi
 
     check_root || return 1
 

@@ -114,8 +114,8 @@ packages+="libusb-1.0-0 "
 mkdir -p $buildenv
 
 # create image
-echo " # creating image file '$(basename $image)' with size ${img_size}M and layout ${img_partition_layout}."
-create_image $image $img_size $img_partition_layout || (echo "FAILED"; exit 1)
+echo " # creating image file '$(basename $image)' with size ${img_size}M."
+create_image $image $img_size || (echo "FAILED"; exit 1)
 
 # make sure rootfs path exists
 mkdir -p $rootfs
@@ -225,6 +225,9 @@ echo "Finished scripts from ${applications_confd}"
 # safety first
 sync; sleep 1
 
+trap : 0
+set +e
+
 if mount | grep ${rootfs}/dev  > /dev/null; then umount -l $rootfs/dev;  fi
 if mount | grep ${rootfs}/proc > /dev/null; then umount -l $rootfs/proc; fi
 
@@ -235,8 +238,6 @@ unmount_image $image
 owner="$(namei -o ${buildenv}/.. | tail -n 1 | cut -d ' ' -f 3)"
 group="$(namei -o ${buildenv}/.. | tail -n 1 | cut -d ' ' -f 4)"
 chown -R $owner:$group $buildenv
-
-trap : 0
 
 echo "*******************************************************************************"
 echo "*** Created Image: $(basename $image)"
